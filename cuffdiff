@@ -1,0 +1,16 @@
+module load samtools
+
+##sort bam files
+samtools sort -o WT_0hrs_rep3_1.sort.bam -T PREFIX.bam WT_0hrs_rep3_1.bam
+
+##then index the bam file
+samtools index WT_0hrs_rep3_1.bam
+
+##then cuff diff multiple samples; im comparing the WT_0.5hrs to the WT_0hrs and to let the function know there are replicates, separate the samples by comma. 
+##MAKE SURE TO USE THE SORTED BAM FILES AS YOUR INPUT FILE
+
+#template code:
+#cuffdiff -o <name of output directory> <features.gff> <WT_0hrsrep1,WT_0hrsrep2,WT_0hrsrep3> <WT_0.5hrsrep1,WT_0.5hrsrep2,WT_0.5hrsrep3>
+#Here's the code I used
+
+cuffdiff -o WT_cuffdiff data/features.gff results/WT_0hrs_rep1_1.tophat/WT_0hrs_rep1_1.sort.bam,results/WT_0hrs_rep2_1.tophat/WT_0hrs_rep2_1.sort.bam,results/WT_0hrs_rep3_1.tophat/WT_0hrs_rep3_1.sort.bam results/WT_0.5hrs_rep1_1.tophat/WT_0.5hrs_rep1_1.sort.bam,results/WT_0.5hrs_rep2_1.tophat/WT_0.5hrs_rep2_1.sort.bam,results/WT_0.5hrs_rep3_1.tophat/WT_0.5hrs_rep3_1.sort.bam
